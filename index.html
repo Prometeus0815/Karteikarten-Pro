@@ -326,48 +326,15 @@
             </div> </div> </div> <script>
         // --- PREDEFINED DECKS (INITIAL SAMPLE + NEW CONTENT FROM PDFs) ---
         const predefinedDecks = [
-            // Initial sample decks from previous turn (will remain if user already has them)
             {
-                id: "gastronomie-fremdwoerter-20250517", // Original ID
-                name: "Gastronomie-Fremdwörter (Beispiele)", // Slightly changed name to differentiate if needed
+                id: "deck-glossar-gastro-erweitert-01",
+                name: "Gastronomie-Fremdwörter (Glossar)",
                 cards: [
                     { id: "gf-card-1", front: "Amuse bouche", back: "Warmer Gruß aus der Küche vor dem Menü.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "gf-card-2", front: "Bain-marie", back: "Wasserbad zum Warmhalten von Speisen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "gf-card-3", front: "Concierge", back: "Hotelmitarbeiter, der Gästen bei besonderen Wünschen hilft (Tickets, Arzttermine, Gepäck etc.).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "gf-card-4", front: "Degorgieren", back: "Entfernen des Hefepfropfens aus der Flasche beim Flaschengärverfahren (z. B. Champagner).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "gf-card-5", front: "Mise en Place", back: "Vorbereitung aller benötigten Zutaten und Werkzeuge am Arbeitsplatz vor dem Kochen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
-                ],
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: "rechtskunde-20250517", // Original ID
-                name: "Rechtskunde (Beispiele)", // Slightly changed name
-                cards: [
-                    { id: "rk-card-1", front: "Wann ist eine Tätigkeit gewerblich?", back: "Eine Tätigkeit ist gewerblich, wenn sie folgende Merkmale aufweist: Selbstständigkeit (auf eigene Rechnung und Gefahr), Regelmäßigkeit (wiederholte Ausübung), Ertragsabsicht (wirtschaftlicher Vorteil soll erzielt werden), Erlaubtheit (nicht verboten oder sittenwidrig), Organisationsstruktur (in gewerblich eingerichteter Weise).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "rk-card-2", front: "Welche wichtigen Ausnahmen vom Geltungsbereich der Gewerbeordnung kennen Sie?", back: "Ausgenommen sind: Freie Berufe (z. B. Ärzte, Notare, Rechtsanwälte), Urproduktion (z. B. Land- und Forstwirtschaft), Bestimmte Nebentätigkeiten im Rahmen von Vereinen oder Hauswirtschaft.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "rk-card-3", front: "Was wird im Zuge des Betriebsanlagenverfahrens geprüft?", back: "Gesundheits- und Umweltschutz, Brandschutz, Nachbarschaftsverträglichkeit, Einhaltung baurechtlicher Vorschriften.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "rk-card-4", front: "Was versteht man unter Verabreichung und Ausschank?", back: "Verabreichung: Servieren von Speisen. Ausschank: Servieren von Getränken, insbesondere alkoholischer.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "rk-card-5", front: "Was muss ein Dienstzeugnis enthalten?", back: "Dauer und Art der Beschäftigung. Wahrheitsgemäße, wohlwollende Formulierung. Auf Wunsch: auch über Leistung und Verhalten.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
-                ],
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: "pruefungsfragen-kueche-service-20250517", // Original ID
-                name: "Prüfungsfragen Küche & Service (Beispiele)", // Slightly changed name
-                cards: [
-                    { id: "pk-card-1", front: "Strudelteig (Zutaten und Zubereitung)", back: "Weizenmehl (Typ 700), (lauwarmes) Wasser, Öl, Salz. Vermischen und Kneten, abdecken und 30 min ruhen lassen, ziehen bis man Zeitung lesen kann, er aber nicht reißt. Nachpinseln nicht mit Öl sondern Butter.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "pk-card-2", front: "Rezept Kaiserschmarren", back: "Eier Trennen, Eiweiß steif schlagen. Dotter mit Mehl, Milch, Backpulver und Zucker vermischen. (Rum-) Rosinen. Eischnee unterheben. In Pfanne mit Butter auf beiden Seiten anbraten. Zerreißen. Im Ofen fertig backen. Mit Puderzucker bestreuen (oder kurz vorm Ende mit Kristallzucker karamellisieren).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "pk-card-3", front: "Konservierungsmethoden (Beispiele)", back: "Einlegen (Essig, Öl, Alkohol), Wasser entziehen (Salz, Zucker), Einkochen, Einrexen, Einfrieren, Vakuumieren, Räuchern.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "pk-card-4", front: "Was ist Gratinieren?", back: "Überbacken, zb mit Käse oder Sauce Mornay (Béchamel + Käse). Küchengerät dafür ist der Salamander.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "pk-card-5", front: "Kaffeesorten und Zubereitung (Robusta vs. Arabica)", back: "Robusta (eher für Espresso, Tiefland (bis 500m)), Arabica (eher f. Filter, Hochland (500 bis 2500m)). Aufbrühmethode (Türkischer Kaffee) mit Arabica. Frenchpress mit Arabica.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
-                ],
-                createdAt: new Date().toISOString()
-            },
-            // New decks from PDFs
-            {
-                id: "deck-glossar-gastro-erweitert-01",
-                name: "Gastronomie-Fremdwörter (Glossar)",
-                cards: [
+                    { id: "gf-card-5", front: "Mise en Place", back: "Vorbereitung aller benötigten Zutaten und Werkzeuge am Arbeitsplatz vor dem Kochen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-gg-001", front: "Apprentis", back: "Lehrlinge in der Küche.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-gg-002", front: "Aprikotieren", back: "Bestreichen (einer Torte) mit heißer Aprikosenmarmelade (im Kontext der Sachertorte).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-gg-003", front: "Back Office", back: "Verwaltungsbereich eines Hotels, zuständig für z. B. Dienstpläne, Verwaltung, Social Media, Angebote.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
@@ -443,6 +410,11 @@
                 id: "deck-rechtskunde-erweitert-01",
                 name: "Rechtskunde (Detailfragen)",
                 cards: [
+                    { id: "rk-card-1", front: "Wann ist eine Tätigkeit gewerblich?", back: "Eine Tätigkeit ist gewerblich, wenn sie folgende Merkmale aufweist: Selbstständigkeit (auf eigene Rechnung und Gefahr), Regelmäßigkeit (wiederholte Ausübung), Ertragsabsicht (wirtschaftlicher Vorteil soll erzielt werden), Erlaubtheit (nicht verboten oder sittenwidrig), Organisationsstruktur (in gewerblich eingerichteter Weise).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "rk-card-2", front: "Welche wichtigen Ausnahmen vom Geltungsbereich der Gewerbeordnung kennen Sie?", back: "Ausgenommen sind: Freie Berufe (z. B. Ärzte, Notare, Rechtsanwälte), Urproduktion (z. B. Land- und Forstwirtschaft), Bestimmte Nebentätigkeiten im Rahmen von Vereinen oder Hauswirtschaft.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "rk-card-3", front: "Was wird im Zuge des Betriebsanlagenverfahrens geprüft?", back: "Gesundheits- und Umweltschutz, Brandschutz, Nachbarschaftsverträglichkeit, Einhaltung baurechtlicher Vorschriften.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "rk-card-4", front: "Was versteht man unter Verabreichung und Ausschank?", back: "Verabreichung: Servieren von Speisen. Ausschank: Servieren von Getränken, insbesondere alkoholischer.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "rk-card-5", front: "Was muss ein Dienstzeugnis enthalten?", back: "Dauer und Art der Beschäftigung. Wahrheitsgemäße, wohlwollende Formulierung. Auf Wunsch: auch über Leistung und Verhalten.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-rkd-001", front: "Warum ist eine Werksküche i.d.R. eine nicht gewerbliche Einrichtung?", back: "Weil sie ausschließlich der Versorgung von Betriebsangehörigen dient und keine Gewinnerzielungsabsicht besteht. Sie gilt als Teil des Unternehmens, nicht als eigenständiges Gewerbe.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-rkd-002", front: "Beschränkungen bei der Ausübung der Buschenschank?", back: "Ausschank nur selbst erzeugter Produkte (z.B. Wein, Most, Säfte). Keine warme Küche (nur kalte Speisen erlaubt).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-rkd-003", front: "Maßnahmen gegen Buschenschankbetreiber bei Überschreitung der Befugnisse?", back: "Verwaltungsstrafen durch die Bezirksverwaltungsbehörde. Unterstützung und Beratung durch die Wirtschaftskammer.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
@@ -492,9 +464,14 @@
                 createdAt: new Date().toISOString()
             },
             {
-                id: "deck-pruef-kueche-lebensmittel-01",
-                name: "Prüfungsfragen - Küche & Lebensmittel",
+                id: "deck-pruef-kueche-lebensmittel-01", // ID for the target deck
+                name: "Lebensmittelkunde", // NEW NAME as requested by user
                 cards: [
+                    { id: "pk-card-1", front: "Strudelteig (Zutaten und Zubereitung)", back: "Weizenmehl (Typ 700), (lauwarmes) Wasser, Öl, Salz. Vermischen und Kneten, abdecken und 30 min ruhen lassen, ziehen bis man Zeitung lesen kann, er aber nicht reißt. Nachpinseln nicht mit Öl sondern Butter.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "pk-card-2", front: "Rezept Kaiserschmarren", back: "Eier Trennen, Eiweiß steif schlagen. Dotter mit Mehl, Milch, Backpulver und Zucker vermischen. (Rum-) Rosinen. Eischnee unterheben. In Pfanne mit Butter auf beiden Seiten anbraten. Zerreißen. Im Ofen fertig backen. Mit Puderzucker bestreuen (oder kurz vorm Ende mit Kristallzucker karamellisieren).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "pk-card-3", front: "Konservierungsmethoden (Beispiele)", back: "Einlegen (Essig, Öl, Alkohol), Wasser entziehen (Salz, Zucker), Einkochen, Einrexen, Einfrieren, Vakuumieren, Räuchern.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "pk-card-4", front: "Was ist Gratinieren?", back: "Überbacken, zb mit Käse oder Sauce Mornay (Béchamel + Käse). Küchengerät dafür ist der Salamander.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "pk-card-5", front: "Kaffeesorten und Zubereitung (Robusta vs. Arabica)", back: "Robusta (eher für Espresso, Tiefland (bis 500m)), Arabica (eher f. Filter, Hochland (500 bis 2500m)). Aufbrühmethode (Türkischer Kaffee) mit Arabica. Frenchpress mit Arabica.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-pkl-001", front: "Rezept Sachertorte (Kurzform)", back: "Schwere Sandmasse (Butter, Zucker, Mehl, Eidotter, Schoko, Eischnee). Backen, halbieren, aprikotieren, Schokoglasur.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-pkl-002", front: "Teigarten (Nenne 5)", back: "Backteige, Blätterteig, Brandteig, Germteig, Mürbteig, Strudelteig.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-pkl-003", front: "Einteilung Schwein: Rücken?", back: "Karree (für Schnitzel, Kotelett). Andere Teile: Kopf, Schulter (Schopf, Bug), Bauch, Lungenbraten (Filet).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
@@ -665,18 +642,51 @@
         }
 
         // Start with user's decks from storage
-        let combinedDecks = Array.isArray(userDecksFromStorage) ? [...userDecksFromStorage] : []; 
+        let combinedDecks = Array.isArray(userDecksFromStorage) ? JSON.parse(JSON.stringify(userDecksFromStorage)) : []; 
 
         // Get IDs of decks already loaded from storage
         const loadedDeckIds = new Set(combinedDecks.map(deck => String(deck.id)));
 
-        // Add predefined decks only if their IDs are not already in loadedDeckIds
+        // Add predefined decks and their cards if their IDs are not already in loadedDeckIds
+        // If a predefined deck ID IS in loadedDeckIds, merge only NEW cards from predefined into the user's existing deck
         predefinedDecks.forEach(predefinedDeck => {
-            if (!loadedDeckIds.has(String(predefinedDeck.id))) {
-                combinedDecks.push(predefinedDeck);
-                // console.log(`[State Init] Adding new predefined deck: ${predefinedDeck.name} (ID: ${predefinedDeck.id})`);
+            const predefinedDeckIdStr = String(predefinedDeck.id);
+            const existingUserDeckIndex = combinedDecks.findIndex(d => String(d.id) === predefinedDeckIdStr);
+
+            if (existingUserDeckIndex === -1) {
+                // This predefined deck is new to the user, add it completely.
+                combinedDecks.push(JSON.parse(JSON.stringify(predefinedDeck))); // Add a deep copy
+                console.log(`[State Init] Adding new predefined deck: ${predefinedDeck.name} (ID: ${predefinedDeckIdStr})`);
             } else {
-                 // console.log(`[State Init] Predefined deck ID ${predefinedDeck.id} (${predefinedDeck.name}) already found in localStorage. User's version will be used.`);
+                // The deck ID exists in user's storage.
+                const userDeck = combinedDecks[existingUserDeckIndex];
+                
+                // Update name if the stored name is an old "Beispiele" name and the new predefined name is different
+                // This handles the specific rename request for "Prüfungsfragen - Küche & Lebensmittel"
+                const oldExampleNameForPkl = "Prüfungsfragen Küche & Service (Beispiele)";
+                const oldExampleNameForGastro = "Gastronomie-Fremdwörter (Beispiele)";
+                const oldExampleNameForRecht = "Rechtskunde (Beispiele)";
+
+                if (predefinedDeck.id === "deck-pruef-kueche-lebensmittel-01" && userDeck.name === "Prüfungsfragen - Küche & Lebensmittel") {
+                    // This is the deck the user specifically asked to rename to "Lebensmittelkunde"
+                    // The predefinedDecks array already has this new name. So we ensure the user's deck also gets it.
+                    // userDeck.name = predefinedDeck.name; // This was already handled by directly changing predefinedDecks
+                     console.log(`[State Init] Deck ID ${predefinedDeckIdStr} (${userDeck.name}) already named as requested or will use predefined name.`);
+                }
+
+
+                // Merge cards: Add cards from predefinedDeck if they don't exist in userDeck
+                const userCardIds = new Set(userDeck.cards.map(card => String(card.id)));
+                let newCardsAddedToExistingDeck = 0;
+                predefinedDeck.cards.forEach(predefinedCard => {
+                    if (!userCardIds.has(String(predefinedCard.id))) {
+                        userDeck.cards.push(JSON.parse(JSON.stringify(predefinedCard))); // Add a deep copy of the new card
+                        newCardsAddedToExistingDeck++;
+                    }
+                });
+                if (newCardsAddedToExistingDeck > 0) {
+                    console.log(`[State Init] Added ${newCardsAddedToExistingDeck} new cards to existing user deck '${userDeck.name}' from predefined deck '${predefinedDeck.name}'.`);
+                }
             }
         });
 
