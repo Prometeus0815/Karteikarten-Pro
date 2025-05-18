@@ -1049,11 +1049,11 @@
         }
 
         // --- MODAL MANAGEMENT ---
-        function showDeckModal(isEdit = false, deckIdToEdit = null) { 
-            if (isEdit && deckIdToEdit) {
+        function showDeckModal(isEditMode = false, deckIdToEdit = null) { 
+            if (isEditMode && deckIdToEdit) {
                 const deck = state.decks.find(d => d.id === deckIdToEdit);
                 if (!deck) {
-                    console.error("Deck to edit not found:", deckIdToEdit);
+                    console.error("[showDeckModal] Deck to edit not found:", deckIdToEdit);
                     return;
                 }
                 state.currentDeckId = deckIdToEdit; 
@@ -1072,9 +1072,7 @@
 
         function hideDeckModal() {
             elements.deckModal.classList.add('hidden');
-            // Do not clear state.currentDeckId here if it was set for edit,
-            // saveDeck will handle it or it will be used if modal is cancelled.
-            // It's cleared if a new deck was meant to be created and cancelled.
+            // state.currentDeckId = null; // Clear only if it was a new deck creation attempt that was cancelled
         }
 
         function showCardModal(cardId) {
@@ -1167,6 +1165,7 @@
                 if (deckIndex !== -1) {
                     state.decks[deckIndex].name = name;
                     deckToSelectAfterSave = state.currentDeckId; 
+                    console.log(`[SaveDeck] Updated deck ID ${state.currentDeckId} with name: ${name}`);
                 } else {
                     console.error("[SaveDeck] Error: Deck to update not found in state, though currentDeckId was set:", state.currentDeckId);
                     hideDeckModal();
@@ -1177,11 +1176,12 @@
                 const newDeck = {
                     id: Date.now().toString(), 
                     name: name,
-                    cards: [], 
+                    cards: [], // New decks should always start with empty cards array
                     createdAt: new Date().toISOString()
                 };
                 state.decks.push(newDeck);
                 deckToSelectAfterSave = newDeck.id; 
+                console.log(`[SaveDeck] Created new deck: ${name} with ID ${newDeck.id}`);
             }
 
             updateStats();
@@ -1219,12 +1219,15 @@
 
 
             const initialDeckCount = state.decks.length;
-            console.log("[DeleteDeck] Decks before filter:", JSON.parse(JSON.stringify(state.decks.map(d => ({id: d.id, name: d.name})))));
+            // console.log("[DeleteDeck] Decks before filter:", JSON.parse(JSON.stringify(state.decks.map(d => ({id: d.id, name: d.name})))));
 
 
             let foundAndFiltered = false;
             const newDecksArray = state.decks.filter(deck => {
-                const isMatch = String(deck.id) === String(deckIdToDelete);
+                const currentDeckIdStr = String(deck.id); 
+                const deckIdToDeleteStr = String(deckIdToDelete); 
+                const isMatch = currentDeckIdStr === deckIdToDeleteStr;
+                // console.log(`[DeleteDeck Filter Loop] Comparing deck.id: '${currentDeckIdStr}' with deckIdToDelete: '${deckIdToDeleteStr}'. Match: ${isMatch}`);
                 if (isMatch) {
                     foundAndFiltered = true;
                 }
@@ -1233,13 +1236,13 @@
             
             state.decks = newDecksArray; 
             const finalDeckCount = state.decks.length;
-            console.log("[DeleteDeck] Decks after filter:", JSON.parse(JSON.stringify(state.decks.map(d => ({id: d.id, name: d.name})))));
+            // console.log("[DeleteDeck] Decks after filter:", JSON.parse(JSON.stringify(state.decks.map(d => ({id: d.id, name: d.name})))));
 
 
             if (!foundAndFiltered && initialDeckCount === finalDeckCount) {
                 console.warn(`[DeleteDeck] Deck with ID '${String(deckIdToDelete)}' was NOT found or filter failed.`);
             } else if (initialDeckCount > finalDeckCount) {
-                 console.log(`[DeleteDeck] Deck '${String(deckIdToDelete)}' successfully filtered.`);
+                 console.log(`[DeleteDeck] Deck '${String(deckIdToDelete)}' successfully filtered. Decks remaining: ${finalDeckCount}.`);
             } else {
                 console.warn(`[DeleteDeck] Filter logic issue for ID '${String(deckIdToDelete)}'. Initial: ${initialDeckCount}, Final: ${finalDeckCount}`);
             }
@@ -1319,19 +1322,21 @@
             }
             
             const initialCardCount = state.decks[deckIndex].cards.length;
-            // console.log(`[DeleteCard] Cards in deck '${state.decks[deckIndex].name}' before filter:`, JSON.parse(JSON.stringify(state.decks[deckIndex].cards.map(c => c.id))));
+            const initialCardsInDeck = JSON.parse(JSON.stringify(state.decks[deckIndex].cards)); // For logging
+            // console.log(`[DeleteCard] Cards in deck '${state.decks[deckIndex].name}' before filter:`, initialCardsInDeck.map(c => c.id));
 
             state.decks[deckIndex].cards = state.decks[deckIndex].cards.filter(card => String(card.id) !== String(cardIdToDelete)); 
             const finalCardCount = state.decks[deckIndex].cards.length;
-            // console.log(`[DeleteCard] Cards in deck '${state.decks[deckIndex].name}' after filter:`, JSON.parse(JSON.stringify(state.decks[deckIndex].cards.map(c => c.id))));
+            // console.log(`[DeleteCard] Cards in deck '${state.decks[deckIndex].name}' after filter:`, state.decks[deckIndex].cards.map(c => c.id));
 
 
-            if (initialCardCount === finalCardCount && initialCardCount > 0) { // Check if filter actually removed something
-                let cardExists = state.decks[deckIndex].cards.some(c => String(c.id) === String(cardIdToDelete));
-                if(initialCardsInDeck.some(c => String(c.id) === String(cardIdToDelete)) && !cardExists) {
-                     console.log(`[DeleteCard] Card '${String(cardIdToDelete)}' successfully filtered. Cards remaining: ${finalCardCount}`);
+            if (initialCardCount === finalCardCount && initialCardCount > 0) { 
+                // Check if the card was actually present before attempting to filter
+                const cardWasPresent = initialCardsInDeck.some(c => String(c.id) === String(cardIdToDelete));
+                if (cardWasPresent) {
+                     console.warn(`[DeleteCard] Card with ID ${String(cardIdToDelete)} was present but filter might have failed or ID mismatch.`);
                 } else {
-                    console.warn(`[DeleteCard] Card with ID ${String(cardIdToDelete)} was NOT found or filter failed.`);
+                     console.warn(`[DeleteCard] Card with ID ${String(cardIdToDelete)} was NOT found in the deck initially.`);
                 }
             } else if (initialCardCount > finalCardCount) {
                 console.log(`[DeleteCard] Card '${String(cardIdToDelete)}' successfully filtered. Cards remaining: ${finalCardCount}`);
@@ -1596,5 +1601,3 @@
     </script>
 </body>
 </html>
-
-
