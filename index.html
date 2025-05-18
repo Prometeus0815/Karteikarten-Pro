@@ -56,40 +56,53 @@
             transform: translateY(-2px); /* Slight lift effect on card hover */
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Enhanced shadow on hover */
         }
+        /* Mobile Sidebar Overlay */
+        .sidebar-mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 30; /* Lower than sidebar, higher than main content */
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
     <div class="flex h-screen overflow-hidden">
-        <div class="hidden md:flex md:flex-shrink-0">
-            <div class="flex flex-col w-64 bg-white border-r border-gray-200">
-                <div class="flex items-center justify-center h-16 px-4 gradient-bg text-white">
-                    <div class="flex items-center">
-                        <i class="fas fa-layer-group text-xl mr-2"></i>
-                        <h1 class="text-xl font-bold">Karteikarten-Pro</h1>
-                    </div>
+        <div id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col">
+            <div class="flex items-center justify-between h-16 px-4 gradient-bg text-white">
+                <div class="flex items-center">
+                    <i class="fas fa-layer-group text-xl mr-2"></i>
+                    <h1 class="text-xl font-bold">Karteikarten-Pro</h1>
                 </div>
-                <div class="flex flex-col flex-grow overflow-y-auto">
-                    <div class="px-4 py-4">
-                        <button id="createDeckBtn" class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white gradient-bg rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
-                            <i class="fas fa-plus mr-2"></i> Neues Deck
-                        </button>
-                    </div>
-                    <nav class="flex-1 px-2 space-y-1">
-                        <div id="decksList" class="space-y-1">
-                            </div>
-                    </nav>
+                <button id="closeSidebarBtn" class="p-2 text-white rounded-md md:hidden hover:bg-indigo-700 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex flex-col flex-grow overflow-y-auto">
+                <div class="px-4 py-4">
+                    <button id="createDeckBtn" class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white gradient-bg rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <i class="fas fa-plus mr-2"></i> Neues Deck
+                    </button>
                 </div>
-                <div class="p-4 border-t border-gray-200">
-                    <div class="flex items-center">
-                        <img class="w-10 h-10 rounded-full" src="https://ui-avatars.com/api/?name=Benutzer&background=6366f1&color=fff" alt="Profilbild" onerror="this.onerror=null; this.src='https://placehold.co/40x40/6366f1/fff?text=B';">
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">Benutzer</p>
-                            <p class="text-sm font-medium text-gray-500">Profil anzeigen</p>
+                <nav class="flex-1 px-2 space-y-1">
+                    <div id="decksList" class="space-y-1">
                         </div>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <img class="w-10 h-10 rounded-full" src="https://ui-avatars.com/api/?name=Benutzer&background=6366f1&color=fff" alt="Profilbild" onerror="this.onerror=null; this.src='https://placehold.co/40x40/6366f1/fff?text=B';">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-900">Benutzer</p>
+                        <p class="text-sm font-medium text-gray-500">Profil anzeigen</p>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="sidebarOverlay" class="sidebar-mobile-overlay hidden md:hidden"></div>
+
 
         <div class="flex flex-col flex-1 overflow-hidden">
             <div class="flex items-center justify-between h-16 px-4 bg-white border-b border-gray-200">
@@ -99,9 +112,9 @@
                     <button id="backBtn" class="p-2 mr-2 text-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 hidden" title="Zurück">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <h2 id="currentDeckTitle" class="text-lg font-medium text-gray-900">Willkommen</h2>
+                    <h2 id="currentDeckTitle" class="text-lg font-medium text-gray-900 truncate">Willkommen</h2>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 sm:space-x-4">
                     <button id="syncBtn" class="p-2 text-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" title="Daten synchronisieren">
                         <i class="fas fa-sync-alt"></i>
                     </button>
@@ -113,29 +126,29 @@
 
             <div id="mainContent" class="flex-1 overflow-auto p-4">
                 <div id="welcomeScreen" class="flex flex-col items-center justify-center h-full">
-                    <div class="max-w-md p-8 bg-white rounded-xl shadow-lg text-center">
+                    <div class="max-w-md p-6 sm:p-8 bg-white rounded-xl shadow-lg text-center">
                         <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-book-open text-3xl text-white"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Willkommen zu Karteikarten-Pro</h2>
-                        <p class="text-gray-600 mb-6">Erstelle oder wähle ein Deck aus, um mit dem Lernen zu beginnen.</p>
-                        <button id="welcomeCreateDeckBtn" class="px-6 py-2 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Willkommen zu Karteikarten-Pro</h2>
+                        <p class="text-gray-600 mb-6 text-sm sm:text-base">Erstelle oder wähle ein Deck aus, um mit dem Lernen zu beginnen.</p>
+                        <button id="welcomeCreateDeckBtn" class="px-6 py-3 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
                             Neues Deck erstellen
                         </button>
                     </div>
                 </div>
 
                 <div id="deckView" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
                         <div>
-                            <h2 id="deckTitle" class="text-2xl font-bold text-gray-800"></h2>
-                            <p id="deckStats" class="text-gray-600"></p>
+                            <h2 id="deckTitle" class="text-xl sm:text-2xl font-bold text-gray-800 truncate"></h2>
+                            <p id="deckStats" class="text-sm text-gray-600"></p>
                         </div>
-                        <div class="flex space-x-2">
-                            <button id="addCardBtn" class="px-4 py-2 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+                            <button id="addCardBtn" class="w-full sm:w-auto px-4 py-2 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
                                 <i class="fas fa-plus mr-2"></i>Karte hinzufügen
                             </button>
-                            <button id="studyDeckBtn" class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                            <button id="studyDeckBtn" class="w-full sm:w-auto px-4 py-2 bg-emerald-500 text-white font-medium rounded-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                                 <i class="fas fa-graduation-cap mr-2"></i>Lernen
                             </button>
                         </div>
@@ -157,37 +170,37 @@
                                 </div>
                             </div>
 
-                            <div id="cardContainer" class="flip-card w-full h-64 mb-8">
+                            <div id="cardContainer" class="flip-card w-full h-56 sm:h-64 mb-8">
                                 <div class="flip-card-inner w-full h-full">
-                                    <div class="flip-card-front bg-blue-100 text-blue-800 p-6 cursor-pointer card-shadow transition-all">
-                                        <p id="cardFront" class="text-xl text-center">Karte wird geladen...</p>
+                                    <div class="flip-card-front bg-blue-100 text-blue-800 p-4 sm:p-6 cursor-pointer card-shadow transition-all">
+                                        <p id="cardFront" class="text-lg sm:text-xl text-center">Karte wird geladen...</p>
                                     </div>
-                                    <div class="flip-card-back bg-green-100 text-green-800 p-6 cursor-pointer card-shadow transition-all">
-                                        <p id="cardBack" class="text-xl text-center">Karte wird geladen...</p>
+                                    <div class="flip-card-back bg-green-100 text-green-800 p-4 sm:p-6 cursor-pointer card-shadow transition-all">
+                                        <p id="cardBack" class="text-lg sm:text-xl text-center">Karte wird geladen...</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div id="answerButtons" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <button data-difficulty="again" class="px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
+                            <div id="answerButtons" class="hidden grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
+                                <button data-difficulty="again" class="px-4 py-3 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
                                     <i class="fas fa-times mr-2"></i>Nochmal
                                 </button>
-                                <button data-difficulty="hard" class="px-4 py-2 bg-amber-500 text-white font-medium rounded-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
+                                <button data-difficulty="hard" class="px-4 py-3 bg-amber-500 text-white font-medium rounded-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
                                     <i class="fas fa-question mr-2"></i>Schwer
                                 </button>
-                                <button data-difficulty="easy" class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                                <button data-difficulty="easy" class="px-4 py-3 bg-emerald-500 text-white font-medium rounded-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                                     <i class="fas fa-check mr-2"></i>Einfach
                                 </button>
                             </div>
 
                             <div id="studyComplete" class="hidden text-center">
-                                <div class="bg-white rounded-xl p-8 shadow-lg">
+                                <div class="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
                                     <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <i class="fas fa-check-circle text-3xl text-emerald-500"></i>
                                     </div>
-                                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Studium abgeschlossen!</h2>
-                                    <p class="text-gray-600 mb-6">Du hast alle Karten für heute durchgearbeitet.</p>
-                                    <button id="returnToDeckBtn" class="px-6 py-2 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Studium abgeschlossen!</h2>
+                                    <p class="text-gray-600 mb-6 text-sm sm:text-base">Du hast alle Karten für heute durchgearbeitet.</p>
+                                    <button id="returnToDeckBtn" class="px-6 py-3 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
                                         Zurück zum Deck
                                     </button>
                                 </div>
@@ -327,7 +340,7 @@
         // --- PREDEFINED DECKS (INITIAL SAMPLE + NEW CONTENT FROM PDFs) ---
         const predefinedDecks = [
             {
-                id: "deck-glossar-gastro-erweitert-01",
+                id: "deck-glossar-gastro-erweitert-01", 
                 name: "Gastronomie-Fremdwörter (Glossar)",
                 cards: [
                     { id: "gf-card-1", front: "Amuse bouche", back: "Warmer Gruß aus der Küche vor dem Menü.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
@@ -656,22 +669,20 @@
             if (existingUserDeckIndex === -1) {
                 // This predefined deck is new to the user, add it completely.
                 combinedDecks.push(JSON.parse(JSON.stringify(predefinedDeck))); // Add a deep copy
-                console.log(`[State Init] Adding new predefined deck: ${predefinedDeck.name} (ID: ${predefinedDeckIdStr})`);
+                // console.log(`[State Init] Adding new predefined deck: ${predefinedDeck.name} (ID: ${predefinedDeckIdStr})`);
             } else {
                 // The deck ID exists in user's storage.
                 const userDeck = combinedDecks[existingUserDeckIndex];
                 
-                // Update name if the stored name is an old "Beispiele" name and the new predefined name is different
-                // This handles the specific rename request for "Prüfungsfragen - Küche & Lebensmittel"
+                // Ensure the name from predefinedDecks is used if the user hasn't changed it from an "Beispiele" name or the specific "Lebensmittelkunde" case
                 const oldExampleNameForPkl = "Prüfungsfragen Küche & Service (Beispiele)";
-                const oldExampleNameForGastro = "Gastronomie-Fremdwörter (Beispiele)";
-                const oldExampleNameForRecht = "Rechtskunde (Beispiele)";
-
-                if (predefinedDeck.id === "deck-pruef-kueche-lebensmittel-01" && userDeck.name === "Prüfungsfragen - Küche & Lebensmittel") {
-                    // This is the deck the user specifically asked to rename to "Lebensmittelkunde"
-                    // The predefinedDecks array already has this new name. So we ensure the user's deck also gets it.
-                    // userDeck.name = predefinedDeck.name; // This was already handled by directly changing predefinedDecks
-                     console.log(`[State Init] Deck ID ${predefinedDeckIdStr} (${userDeck.name}) already named as requested or will use predefined name.`);
+                const oldNameForLebensmittel = "Prüfungsfragen - Küche & Lebensmittel"; 
+                
+                if (predefinedDeck.id === "deck-pruef-kueche-lebensmittel-01") {
+                    if (userDeck.name === oldExampleNameForPkl || userDeck.name === oldNameForLebensmittel) {
+                        userDeck.name = predefinedDeck.name; // Update to "Lebensmittelkunde"
+                         console.log(`[State Init] Updated deck name for ID ${predefinedDeckIdStr} to: ${predefinedDeck.name}`);
+                    }
                 }
 
 
@@ -747,6 +758,8 @@
             cancelMoveCardBtn: document.getElementById('cancelMoveCardBtn'), 
             confirmMoveCardBtn: document.getElementById('confirmMoveCardBtn'), 
             sidebarToggle: document.getElementById('sidebarToggle'),
+            closeSidebarBtn: document.getElementById('closeSidebarBtn'),
+            sidebarOverlay: document.getElementById('sidebarOverlay'),
             backBtn: document.getElementById('backBtn'), 
             syncBtn: document.getElementById('syncBtn'),
             statsBtn: document.getElementById('statsBtn'),
@@ -776,7 +789,12 @@
             elements.returnToDeckBtn.addEventListener('click', returnToDeck);
             elements.syncBtn.addEventListener('click', syncData);
             elements.statsBtn.addEventListener('click', showStatsView);
+            
             elements.sidebarToggle.addEventListener('click', toggleSidebar);
+            elements.closeSidebarBtn.addEventListener('click', toggleSidebar);
+            elements.sidebarOverlay.addEventListener('click', toggleSidebar);
+
+
             elements.backBtn.addEventListener('click', handleBackNavigation); 
 
             elements.saveCardBtn.addEventListener('click', saveCard);
@@ -808,8 +826,7 @@
                         <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
                             <i class="fas fa-layer-group text-indigo-600"></i>
                         </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">${escapeHTML(deck.name)}</p>
+                        <div class="ml-3 min-w-0"> <p class="text-sm font-medium text-gray-900">${escapeHTML(deck.name)}</p>
                             <p class="text-xs text-gray-500">${deck.cards.length} Karten</p>
                         </div>
                     </div>
@@ -823,7 +840,12 @@
                     </div>
                 `;
                 
-                deckElement.querySelector('.flex-1').addEventListener('click', () => showDeck(deck.id));
+                deckElement.querySelector('.flex-1').addEventListener('click', () => {
+                    showDeck(deck.id);
+                    if (window.innerWidth < 768) { // md breakpoint
+                        toggleSidebar(); // Close sidebar on mobile after selection
+                    }
+                });
                 
                 const editBtn = deckElement.querySelector('.edit-deck');
                 const deleteBtn = deckElement.querySelector('.delete-deck');
@@ -856,7 +878,7 @@
                 cardElement.innerHTML = `
                     <div class="p-4">
                         <div class="flex justify-between items-start">
-                            <h3 class="text-lg font-medium text-gray-900 mb-2">${escapeHTML(card.front.substring(0, 50))}${card.front.length > 50 ? '...' : ''}</h3>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2 break-words">${escapeHTML(card.front.substring(0, 50))}${card.front.length > 50 ? '...' : ''}</h3>
                             <div class="flex space-x-1">
                                 <button class="move-card p-1 text-gray-500 hover:text-blue-600 transition-colors" data-id="${card.id}" title="Karte verschieben">
                                     <i class="fas fa-exchange-alt text-sm"></i>
@@ -869,7 +891,7 @@
                                 </button>
                             </div>
                         </div>
-                        <p class="text-gray-600 text-sm">${escapeHTML(card.back.substring(0, 100))}${card.back.length > 100 ? '...' : ''}</p>
+                        <p class="text-gray-600 text-sm break-words">${escapeHTML(card.back.substring(0, 100))}${card.back.length > 100 ? '...' : ''}</p>
                         <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
                             <span class="text-xs text-gray-500">Zuletzt gelernt: ${card.lastReviewed ? new Date(card.lastReviewed).toLocaleDateString('de-DE') : 'Nie'}</span>
                             <span class="text-xs px-2 py-1 rounded-full ${getDifficultyClass(card.difficulty)}">${getDifficultyText(card.difficulty)}</span>
@@ -927,7 +949,7 @@
                 progressElement.className = 'bg-white border border-gray-200 rounded-xl p-4';
                 progressElement.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
-                        <h4 class="font-medium text-gray-800">${escapeHTML(deck.name)}</h4>
+                        <h4 class="font-medium text-gray-800 truncate">${escapeHTML(deck.name)}</h4>
                         <span class="text-sm font-medium text-gray-600">${studiedCards}/${totalCards} Karten</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2.5">
@@ -942,7 +964,7 @@
             const canvas = elements.activityChart;
             const ctx = canvas.getContext('2d');
             
-            canvas.width = canvas.offsetWidth;
+            canvas.width = canvas.offsetWidth; // Make chart responsive
             canvas.height = 200; 
             
             const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']; 
@@ -952,48 +974,53 @@
             
             const padding = 20; 
             const chartWidth = canvas.width - 2 * padding;
-            const chartHeight = canvas.height - 2 * padding - 20; 
+            const chartHeight = canvas.height - 2 * padding - 20; // Space for x-axis labels
             const barPadding = 10; 
             const numBars = days.length;
             const barWidth = (chartWidth - (numBars - 1) * barPadding) / numBars;
             
-            const maxValue = Math.max(...data, 1); 
+            const maxValue = Math.max(...data, 1); // Ensure maxValue is at least 1 to prevent division by zero
 
-            ctx.fillStyle = '#6B7280'; 
+            // Draw Y-axis labels
+            ctx.fillStyle = '#6B7280'; // Tailwind gray-500
             ctx.font = '10px Arial';
             ctx.textAlign = 'right';
-            ctx.fillText(maxValue.toString(), padding - 5, padding + 5);
-            ctx.fillText('0', padding - 5, padding + chartHeight);
+            ctx.fillText(maxValue.toString(), padding - 5, padding + 5); // Top label
+            ctx.fillText('0', padding - 5, padding + chartHeight); // Bottom label
 
+            // Draw bars and X-axis labels
             data.forEach((value, index) => {
                 const barHeight = (value / maxValue) * chartHeight;
                 const x = padding + index * (barWidth + barPadding);
                 const y = padding + chartHeight - barHeight;
                 
                 const gradient = ctx.createLinearGradient(x, y, x, y + barHeight);
-                gradient.addColorStop(0, '#6366f1'); 
-                gradient.addColorStop(1, '#8b5cf6'); 
+                gradient.addColorStop(0, '#6366f1'); // Tailwind indigo-500
+                gradient.addColorStop(1, '#8b5cf6'); // Tailwind purple-500
                 ctx.fillStyle = gradient;
                 
                 ctx.fillRect(x, y, barWidth, barHeight);
                 
-                ctx.fillStyle = '#6B7280'; 
+                // X-axis labels
+                ctx.fillStyle = '#6B7280'; // Tailwind gray-500
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(days[index], x + barWidth / 2, padding + chartHeight + 15); 
+                ctx.fillText(days[index], x + barWidth / 2, padding + chartHeight + 15); // Position labels below bars
                 
+                // Value labels on top of bars (optional)
                 if (value > 0) {
-                    ctx.fillStyle = '#1F2937'; 
+                    ctx.fillStyle = '#1F2937'; // Tailwind gray-800
                     ctx.font = '10px Arial';
-                    ctx.fillText(value.toString(), x + barWidth / 2, y - 5); 
+                    ctx.fillText(value.toString(), x + barWidth / 2, y - 5); // Position above the bar
                 }
             });
             
-            ctx.strokeStyle = '#D1D5DB'; 
+            // Draw axes lines
+            ctx.strokeStyle = '#D1D5DB'; // Tailwind gray-300
             ctx.beginPath();
-            ctx.moveTo(padding, padding); 
-            ctx.lineTo(padding, padding + chartHeight); 
-            ctx.lineTo(padding + chartWidth, padding + chartHeight); 
+            ctx.moveTo(padding, padding); // Start of Y-axis
+            ctx.lineTo(padding, padding + chartHeight); // End of Y-axis / Start of X-axis
+            ctx.lineTo(padding + chartWidth, padding + chartHeight); // End of X-axis
             ctx.stroke();
         }
 
@@ -1556,10 +1583,10 @@
 
         // --- UTILITY FUNCTIONS ---
         function toggleSidebar() {
-            const sidebar = document.querySelector('.md\\:flex.flex-col.w-64'); 
-            if (sidebar) {
-                sidebar.classList.toggle('hidden'); 
-            }
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
         }
         
         function syncData() {
