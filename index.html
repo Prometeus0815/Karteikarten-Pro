@@ -112,8 +112,7 @@
                     <button id="backBtn" class="p-2 mr-2 text-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 hidden" title="Zurück">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <h2 id="currentDeckTitle" class="text-lg font-medium text-gray-900 truncate">Willkommen</h2>
-                </div>
+                    <h2 id="currentDeckTitle" class="text-lg font-medium text-gray-900">Willkommen</h2> </div>
                 <div class="flex items-center space-x-2 sm:space-x-4">
                     <button id="syncBtn" class="p-2 text-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" title="Daten synchronisieren">
                         <i class="fas fa-sync-alt"></i>
@@ -141,8 +140,7 @@
                 <div id="deckView" class="hidden">
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
                         <div>
-                            <h2 id="deckTitle" class="text-xl sm:text-2xl font-bold text-gray-800 truncate"></h2>
-                            <p id="deckStats" class="text-sm text-gray-600"></p>
+                            <h2 id="deckTitle" class="text-xl sm:text-2xl font-bold text-gray-800"></h2> <p id="deckStats" class="text-sm text-gray-600"></p>
                         </div>
                         <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                             <button id="addCardBtn" class="w-full sm:w-auto px-4 py-2 text-white font-medium rounded-md gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
@@ -153,13 +151,32 @@
                             </button>
                         </div>
                     </div>
-                    <div id="cardsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h3 class="text-md font-semibold text-gray-700 mb-3">Spezielle Übungsmodi:</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                            <button id="studyAgainBtn" class="px-4 py-2 text-sm bg-red-500 text-white font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
+                                <i class="fas fa-redo mr-2"></i>Nochmal Üben
+                            </button>
+                            <button id="studyHardBtn" class="px-4 py-2 text-sm bg-amber-500 text-white font-medium rounded-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
+                                <i class="fas fa-fire mr-2"></i>Schwer Üben
+                            </button>
+                            <button id="studyEasyBtn" class="px-4 py-2 text-sm bg-sky-500 text-white font-medium rounded-md hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+                                <i class="fas fa-check-double mr-2"></i>Einfach Üben
+                            </button>
+                            <button id="studyTestBtn" class="px-4 py-2 text-sm bg-purple-500 text-white font-medium rounded-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all">
+                                <i class="fas fa-vial mr-2"></i>Testmodus
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="cardsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
                         </div>
                 </div>
 
                 <div id="studyView" class="hidden">
                     <div class="flex flex-col items-center justify-center h-full">
                         <div class="w-full max-w-2xl">
+                            <p id="studyModeIndicator" class="text-center text-sm text-gray-600 mb-2"></p>
                             <div class="mb-6">
                                 <div class="flex justify-between items-center">
                                     <span id="cardsRemaining" class="text-sm font-medium text-gray-600">0 Karten übrig</span>
@@ -710,6 +727,7 @@
             studyCards: [],           
             currentStudyIndex: 0,     
             isFlipped: false,         
+            studyMode: 'normal', // 'normal', 'again', 'hard', 'easy', 'test'
             stats: JSON.parse(localStorage.getItem('stats')) || { 
                 decksCount: 0,
                 cardsCount: 0,
@@ -737,6 +755,7 @@
             cardsRemaining: document.getElementById('cardsRemaining'),
             studyProgress: document.getElementById('studyProgress'),
             progressBar: document.getElementById('progressBar'),
+            studyModeIndicator: document.getElementById('studyModeIndicator'),
             cardModal: document.getElementById('cardModal'),
             deckModal: document.getElementById('deckModal'),
             moveCardModal: document.getElementById('moveCardModal'), 
@@ -750,6 +769,10 @@
             welcomeCreateDeckBtn: document.getElementById('welcomeCreateDeckBtn'),
             addCardBtn: document.getElementById('addCardBtn'),
             studyDeckBtn: document.getElementById('studyDeckBtn'),
+            studyAgainBtn: document.getElementById('studyAgainBtn'),
+            studyHardBtn: document.getElementById('studyHardBtn'),
+            studyEasyBtn: document.getElementById('studyEasyBtn'),
+            studyTestBtn: document.getElementById('studyTestBtn'),
             returnToDeckBtn: document.getElementById('returnToDeckBtn'),
             saveCardBtn: document.getElementById('saveCardBtn'),
             cancelCardBtn: document.getElementById('cancelCardBtn'),
@@ -785,7 +808,13 @@
             elements.createDeckBtn.addEventListener('click', () => showDeckModal(false)); // For new deck
             elements.welcomeCreateDeckBtn.addEventListener('click', () => showDeckModal(false)); // For new deck
             elements.addCardBtn.addEventListener('click', () => showCardModal(null)); 
-            elements.studyDeckBtn.addEventListener('click', startStudySession);
+            elements.studyDeckBtn.addEventListener('click', () => startStudySession('normal'));
+            
+            elements.studyAgainBtn.addEventListener('click', () => startStudySession('again'));
+            elements.studyHardBtn.addEventListener('click', () => startStudySession('hard'));
+            elements.studyEasyBtn.addEventListener('click', () => startStudySession('easy'));
+            elements.studyTestBtn.addEventListener('click', () => startStudySession('test'));
+
             elements.returnToDeckBtn.addEventListener('click', returnToDeck);
             elements.syncBtn.addEventListener('click', syncData);
             elements.statsBtn.addEventListener('click', showStatsView);
@@ -822,8 +851,7 @@
                 const deckElement = document.createElement('div');
                 deckElement.className = 'sidebar-item group flex items-center px-2 py-2 text-sm font-medium rounded-md cursor-pointer transition-colors';
                 deckElement.innerHTML = `
-                    <div class="flex items-center flex-1">
-                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                    <div class="flex items-center flex-1 min-w-0"> <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
                             <i class="fas fa-layer-group text-indigo-600"></i>
                         </div>
                         <div class="ml-3 min-w-0"> <p class="text-sm font-medium text-gray-900">${escapeHTML(deck.name)}</p>
@@ -949,7 +977,7 @@
                 progressElement.className = 'bg-white border border-gray-200 rounded-xl p-4';
                 progressElement.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
-                        <h4 class="font-medium text-gray-800 truncate">${escapeHTML(deck.name)}</h4>
+                        <h4 class="font-medium text-gray-800">${escapeHTML(deck.name)}</h4>
                         <span class="text-sm font-medium text-gray-600">${studiedCards}/${totalCards} Karten</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2.5">
@@ -1430,17 +1458,73 @@
 
 
         // --- STUDY SESSION LOGIC ---
-        function startStudySession() {
+        function shuffleArray(array) {
+            let currentIndex = array.length,  randomIndex;
+            // While there remain elements to shuffle.
+            while (currentIndex !== 0) {
+                // Pick a remaining element.
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                // And swap it with the current element.
+                [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function startStudySession(mode = 'normal') {
             const deck = state.decks.find(d => d.id === state.currentDeckId);
             if (!deck || deck.cards.length === 0) {
                 alert("Dieses Deck enthält keine Karten zum Lernen."); 
                 return;
             }
             
-            state.studyCards = [...deck.cards]; 
+            state.studyMode = mode;
+            let cardsToStudy = [];
+            let modeText = "";
+
+            switch(mode) {
+                case 'again':
+                    cardsToStudy = deck.cards.filter(card => card.difficulty === 'again');
+                    modeText = "Übungsmodus: Nochmal";
+                    break;
+                case 'hard':
+                    cardsToStudy = deck.cards.filter(card => card.difficulty === 'hard');
+                    modeText = "Übungsmodus: Schwer";
+                    break;
+                case 'easy':
+                    cardsToStudy = deck.cards.filter(card => card.difficulty === 'easy');
+                    modeText = "Übungsmodus: Einfach";
+                    break;
+                case 'test':
+                    cardsToStudy = shuffleArray([...deck.cards]); // Shuffle a copy
+                    modeText = "Testmodus (Alle Karten gemischt)";
+                    break;
+                case 'normal':
+                default:
+                    cardsToStudy = [...deck.cards];
+                    modeText = ""; // No specific indicator for normal mode
+                    break;
+            }
+
+            if (cardsToStudy.length === 0 && mode !== 'normal' && mode !== 'test') {
+                alert(`Keine Karten für den Modus "${getDifficultyText(mode)}" in diesem Deck gefunden.`);
+                return;
+            }
+             if (cardsToStudy.length === 0 && (mode === 'normal' || mode === 'test')) {
+                alert("Dieses Deck enthält keine Karten zum Lernen.");
+                return;
+            }
+
+
+            state.studyCards = cardsToStudy; 
             state.currentStudyIndex = 0;
             state.isFlipped = false;
             
+            elements.studyModeIndicator.textContent = modeText;
+            elements.studyModeIndicator.classList.toggle('hidden', modeText === "");
+
+
             elements.welcomeScreen.classList.add('hidden');
             elements.deckView.classList.add('hidden');
             elements.studyView.classList.remove('hidden');
@@ -1470,7 +1554,9 @@
                     elements.progressBar.style.width = `0%`;
                     elements.cardsRemaining.textContent = `0 Karten übrig`;
                 }
-                updateStudyStats(totalCardsInSession); 
+                if (state.studyMode !== 'test') { // Don't count test mode towards daily stats for now
+                    updateStudyStats(totalCardsInSession); 
+                }
                 return;
             }
             
@@ -1502,11 +1588,11 @@
         function handleAnswer(difficulty) {
             if (state.currentStudyIndex >= state.studyCards.length) return; 
             
+            const originalCardId = state.studyCards[state.currentStudyIndex].id;
             const deckIndex = state.decks.findIndex(d => d.id === state.currentDeckId);
             if (deckIndex === -1) return;
             
-            const cardIdToUpdate = state.studyCards[state.currentStudyIndex].id;
-            const cardIndexInDeck = state.decks[deckIndex].cards.findIndex(c => c.id === cardIdToUpdate);
+            const cardIndexInDeck = state.decks[deckIndex].cards.findIndex(c => c.id === originalCardId);
             if (cardIndexInDeck === -1) return;
             
             const cardToUpdate = state.decks[deckIndex].cards[cardIndexInDeck];
@@ -1537,6 +1623,8 @@
             } else {
                 showWelcomeScreen(); 
             }
+            state.studyMode = 'normal'; // Reset study mode
+            elements.studyModeIndicator.classList.add('hidden');
         }
         
         function handleBackNavigation() {
@@ -1551,6 +1639,8 @@
                     showWelcomeScreen();
                 }
             }
+            state.studyMode = 'normal'; // Reset study mode
+            elements.studyModeIndicator.classList.add('hidden');
         }
 
 
