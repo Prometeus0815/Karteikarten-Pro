@@ -68,8 +68,8 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
-    <div class="flex h-screen overflow-hidden">
+<body class="bg-gray-50 font-sans flex flex-col min-h-screen">
+    <div class="flex flex-1 overflow-hidden">
         <div id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col">
             <div class="flex items-center justify-between h-16 px-4 gradient-bg text-white">
                 <div class="flex items-center">
@@ -353,7 +353,11 @@
                         </div>
                     </div>
                 </div>
-            </div> </div> </div> <script>
+            </div> </div> </div> <footer class="bg-gray-100 text-center p-4 text-sm text-gray-600 border-t border-gray-200">
+        Entwickelt von Patrick Hernach
+    </footer>
+
+    <script>
         // --- PREDEFINED DECKS (INITIAL SAMPLE + NEW CONTENT FROM PDFs) ---
         const predefinedDecks = [
             {
@@ -579,7 +583,7 @@
             },
             {
                 id: "deck-pruef-hygiene-recht-betrieb-01",
-                name: "Prüfungsfragen - Hygiene, Recht & Betrieb",
+                name: "Prüfungsfragen - Hygiene & Betrieb", // Corrected Name
                 cards: [
                     { id: "card-phrb-001", front: "Buffet: Wie lange darf Warmes stehen? Was tun danach?", back: "Maximal 3 Stunden (bei mind. 75°C). Danach muss es wieder auf 100°C (Kerntemperatur 3 Min.) erhitzt oder entsorgt werden.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-phrb-002", front: "Hygiene in der Küche: Personenhygiene (3 Punkte)?", back: "Duschen vor Dienstantritt, Hände waschen, Haare bedecken, kein Schmuck, saubere Kleidung, Küchenschuhe, fernbleiben bei Krankheit/Wunden.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
@@ -691,15 +695,16 @@
                 // The deck ID exists in user's storage.
                 const userDeck = combinedDecks[existingUserDeckIndex];
                 
-                // Ensure the name from predefinedDecks is used if the user hasn't changed it from an "Beispiele" name or the specific "Lebensmittelkunde" case
-                const oldExampleNameForPkl = "Prüfungsfragen Küche & Service (Beispiele)";
-                const oldNameForLebensmittel = "Prüfungsfragen - Küche & Lebensmittel"; 
+                // Ensure the name from predefinedDecks is used if the user hasn't changed it from an "Beispiele" name or the specific "Lebensmittelkunde" or "Prüfungsfragen - Hygiene, Recht & Betrieb" case
+                const oldNameForPkl = "Prüfungsfragen - Küche & Lebensmittel"; 
+                const oldNameForHygiene = "Prüfungsfragen - Hygiene, Recht & Betrieb";
                 
-                if (predefinedDeck.id === "deck-pruef-kueche-lebensmittel-01") {
-                    if (userDeck.name === oldExampleNameForPkl || userDeck.name === oldNameForLebensmittel) {
-                        userDeck.name = predefinedDeck.name; // Update to "Lebensmittelkunde"
-                         console.log(`[State Init] Updated deck name for ID ${predefinedDeckIdStr} to: ${predefinedDeck.name}`);
-                    }
+                if (predefinedDeck.id === "deck-pruef-kueche-lebensmittel-01" && userDeck.name === oldNameForPkl) {
+                     userDeck.name = predefinedDeck.name; // Update to "Lebensmittelkunde"
+                     console.log(`[State Init] Updated deck name for ID ${predefinedDeckIdStr} to: ${predefinedDeck.name}`);
+                } else if (predefinedDeck.id === "deck-pruef-hygiene-recht-betrieb-01" && userDeck.name === oldNameForHygiene) {
+                    userDeck.name = predefinedDeck.name; // Update to "Prüfungsfragen - Hygiene & Betrieb"
+                    console.log(`[State Init] Updated deck name for ID ${predefinedDeckIdStr} to: ${predefinedDeck.name}`);
                 }
 
 
