@@ -106,13 +106,13 @@
 
         <div class="flex flex-col flex-1 overflow-hidden">
             <div class="flex items-center justify-between h-16 px-4 bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                    <button id="sidebarToggle" class="p-2 mr-2 text-gray-500 rounded-md md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                <div class="flex items-center min-w-0"> <button id="sidebarToggle" class="p-2 mr-2 text-gray-500 rounded-md md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
                         <i class="fas fa-bars"></i> </button>
                     <button id="backBtn" class="p-2 mr-2 text-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 hidden" title="Zurück">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <h2 id="currentDeckTitle" class="text-lg font-medium text-gray-900">Willkommen</h2> </div>
+                    <h2 id="currentDeckTitle" class="text-lg font-medium text-gray-900 truncate">Willkommen</h2>
+                </div>
                 <div class="flex items-center space-x-2 sm:space-x-4">
                     <button id="syncBtn" class="p-2 text-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" title="Daten synchronisieren">
                         <i class="fas fa-sync-alt"></i>
@@ -436,7 +436,17 @@
                     { id: "card-gg-065", front: "Tranchieren", back: "Fachgerechtes Zerlegen von gegartem Fleisch oder Geflügel bei Tisch oder in der Küche.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-gg-066", front: "Velouté", back: "Helle Grundsauce, gebunden mit einer hellen Mehlschwitze und aufgegossen mit hellem Fond.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-gg-067", front: "Zesten", back: "Dünn abgeschälte äußere Schale von Zitrusfrüchten.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "card-gg-068", front: "Ziselieren", back: "Einschneiden der Haut von Fisch oder Fleisch vor dem Garen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
+                    { id: "card-gg-068", front: "Ziselieren", back: "Einschneiden der Haut von Fisch oder Fleisch vor dem Garen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-069", front: "Sommelier/Sommelière", back: "Weinkellner/in, zuständig für Weinberatung, -auswahl und -service.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-070", front: "Bankett", back: "Festessen, Festmahl für eine größere Anzahl von Personen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-071", front: "Degustation", back: "Verkostung, insbesondere von Wein oder anderen Lebensmitteln.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-072", front: "Canapé", back: "Kleine, belegte Brotscheibe, oft als Vorspeise oder zum Aperitif.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-073", front: "Chafing-Dish", back: "Warmhaltegerät für Speisen am Buffet, oft mit Brennpaste betrieben.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-074", front: "Cloche", back: "Glockenförmige Abdeckhaube zum Warmhalten von Speisen auf dem Teller.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-075", front: "À la minute", back: "Frisch zubereitet, erst nach Bestellung des Gastes.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-076", front: "Amuse-Gueule", back: "Kleine, appetitanregende Häppchen, die vor dem Menü serviert werden (oft kalt).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-077", front: "Brunoise", back: "Sehr fein gewürfeltes Gemüse (ca. 1-2 mm Kantenlänge).", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "card-gg-078", front: "Concasse", back: "Grob gewürfelte, enthäutete und entkernte Tomaten.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
                 ],
                 createdAt: new Date().toISOString()
             },
@@ -619,7 +629,19 @@
                     { id: "card-phrb-032", front: "Was ist beim Umgang mit rohem Fleisch und Geflügel besonders zu beachten?", back: "Kreuzkontamination vermeiden (separate Bretter/Messer), gründliches Erhitzen, Händehygiene.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-phrb-033", front: "Nenne 3 Maßnahmen zur Vermeidung von Kreuzkontamination.", back: "Getrennte Arbeitsbereiche/Geräte für rohe und gegarte Speisen, Farbcodierung von Schneidebrettern, gründliche Reinigung zwischendurch.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
                     { id: "card-phrb-034", front: "Was sind die Symptome einer Lebensmittelvergiftung?", back: "Übelkeit, Erbrechen, Durchfall, Bauchkrämpfe, Fieber – je nach Erreger unterschiedlich.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
-                    { id: "card-phrb-035", front: "Welche Rolle spielt die Eigenverantwortung des Unternehmers im Lebensmittelrecht?", back: "Unternehmer ist für die Sicherheit der von ihm in Verkehr gebrachten Lebensmittel verantwortlich und muss dies durch Eigenkontrollen (z.B. HACCP) sicherstellen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
+                    { id: "card-phrb-035", front: "Welche Rolle spielt die Eigenverantwortung des Unternehmers im Lebensmittelrecht?", back: "Unternehmer ist für die Sicherheit der von ihm in Verkehr gebrachten Lebensmittel verantwortlich und muss dies durch Eigenkontrollen (z.B. HACCP) sicherstellen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-001", front: "Chef de Cuisine (Küchenchef)", back: "Gesamtleitung der Küche, Menüplanung, Einkauf, Personalführung.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-002", front: "Sous Chef (Stellvertretender Küchenchef)", back: "Vertritt den Küchenchef, oft verantwortlich für einen bestimmten Bereich.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-003", front: "Saucier (Saucenkoch)", back: "Zuständig für Saucen, oft auch für Fleischgerichte und Fonds.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-004", front: "Gardemanger (Koch der kalten Küche)", back: "Verantwortlich für kalte Vorspeisen, Salate, Terrinen, Pasteten, Aufschnitt.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-005", front: "Entremetier (Beilagenkoch)", back: "Zuständig für Gemüsebeilagen, Eierspeisen, Kartoffelgerichte, oft auch Suppen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-006", front: "Rotisseur (Bratenkoch)", back: "Verantwortlich für Braten, Gegrilltes und Frittiertes.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-007", front: "Poissonnier (Fischkoch)", back: "Spezialisiert auf die Zubereitung von Fischgerichten.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-008", front: "Patissier (Küchenkonditor)", back: "Zuständig für Süßspeisen, Desserts, Gebäck und Kuchen.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-009", front: "Tournant (Springer/Wechselkoch)", back: "Vertritt Köche auf verschiedenen Posten bei Abwesenheit.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-010", front: "Commis de Cuisine (Jungkoch)", back: "Berufsanfänger nach der Ausbildung, unterstützt die Chef de Partie.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-011", front: "Apprenti (Küchenlehrling)", back: "Auszubildender in der Küche.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() },
+                    { id: "kb-card-012", front: "Cuisinier du Personal (Personalkoch)", back: "Zuständig für die Verpflegung der Mitarbeiter.", difficulty: 'new', lastReviewed: null, nextReview: null, reviewCount: 0, createdAt: new Date().toISOString() }
                 ],
                 createdAt: new Date().toISOString()
             },
